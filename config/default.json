@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://redeyedb:cisco123@cluster0.yp66n.mongodb.net/db_1?retryWrites=true&w=majority",
+    "jwtSecret": "mysecret"
+}
