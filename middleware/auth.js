@@ -4,7 +4,7 @@ const config = require('config');
 module.exports = function(req, res, next) {
     // Get the token from header
 
-    const token = req.header.('x-auth-token');
+    const token = req.header('x-auth-token');
 
     //Check if no token
     if(!token) {
@@ -13,7 +13,9 @@ module.exports = function(req, res, next) {
 
     // Verify token
     try {
-        const decoded = jwt.verify(token, config.get('jwtsecret'));
+        const decoded = jwt.verify(token, config.get('jwtSecret'));
+
+        console.log(`your DECODED INFORMATION JEFF! ${decoded}`)
         req.user = decoded.user;
         next();
     }   catch(err){
