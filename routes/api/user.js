@@ -43,7 +43,7 @@ router.post('/',
             
             /// CREATE USER
 
-            // Get user gravatar
+            // Create user gravatar
             const avatar = gravatar.url(email,{
                 s: '200',
                 r: 'pg',
