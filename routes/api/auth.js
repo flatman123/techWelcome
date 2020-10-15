@@ -12,6 +12,7 @@ const user = require('../../models/User');
 router.get('/',auth, async (req, res) => {
     try {
         const userData = await user.findById(req.user.id);
+        console.log('FROM API',req.user);
         res.json(userData);
     } catch(err) {
         console.error(err.messages);
