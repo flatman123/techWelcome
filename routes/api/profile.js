@@ -9,9 +9,11 @@ const User = require('../../models/User');
 // @access Private
 router.get('/me',auth, async (req, res) => {
    
+    // Check for user profile AFTER they log in.
     try {
         const profile = await Profile.findOne({ userPro: req.user.id })
                                     .populate('userPro', ['name', 'avatar']);
+        console.log(req.user.id)
         if (!profile) {
             return res.status(400).json({ msg: 'There is no profile for this user' });
                 }
