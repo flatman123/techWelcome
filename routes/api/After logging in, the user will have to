@@ -4,7 +4,7 @@ using the Token they initially recieved after they registered.
 After registration, the user will need to create a profile
 if they don't already have one. 
 
-    GET request        ***Route for GETTING user profile***
+    GET request ( /api/profile/myprofile)       ***Route for GETTING user profile***
 // We'll have to validate the information they enter into the system
 // we'll need to check if there is a profile for said user
     (we validate this using the token ( a.k.a user ID ))
@@ -13,7 +13,7 @@ if they don't already have one.
 // any invalid information will throw a 500-error.
 
 
-      POST request      ***Route for updating and creating user profile***
+      POST request  (/api/profile/ )     ***Route for updating and creating user profile***
 // By this point The user would have already logged in and authentcated.
 // They'll need to further authenticate in order to create
     and or update their profile; using their token.
