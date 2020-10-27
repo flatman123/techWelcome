@@ -21,7 +21,7 @@ if they don't already have one.
     with the new information and return the NEW information
     , not the old...
     
-// IF there is no profile, create one for them.
+// IF there is no profile, Build it , then create one for them.
 // after creating the profile, push it to MongoDB.
 // make sure you associate the correct user with the correct
     profile.
