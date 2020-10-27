@@ -59,7 +59,7 @@ router.post('/', [auth, [
 
      // Build profile object
      const profileFields = {};
-     profileFields.user = req.user.id;
+     profileFields.user = req.user.id; 
 
      if (company) profileFields.company = company;
      if (website) profileFields.website = website;
@@ -68,7 +68,7 @@ router.post('/', [auth, [
      if (status) profileFields.status = status;
      if (skills) {
          profileFields.skills = skills.split(',')
-                                      .map(skill => skill.trim())
+                                      .map(skill => skill.trim());
      };
 
      // Build Social Object
