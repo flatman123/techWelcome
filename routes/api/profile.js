@@ -99,9 +99,44 @@ router.post('/', [auth, [
         res.json(profile);
 
      } catch(err) {
-         console.error(err.message);
+         console.error(err.message.indexOf );
          res.status(500).send('Server Error');
      }
 });
 
-module.exports = router;
+
+// GET /api/profile/
+// desc Get all profiles
+// @Access Public
+router.get('/', async (req, res) => {
+    try {
+        const profiles = await Profile.find({}).populate('user',['avatar','name']);
+        res.json(profiles);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ msg: 'Server Error' });
+    };
+});
+
+
+
+// GET /api/profile/
+// desc Get user profile via id
+// @Access Public
+router.get('/user/:userID', async (req, res) => {
+    try {
+        const userProfile = await Profile.findOne({ user: req.params.userID });
+        if (!userProfile) {
+            return res.status(400).json({ msg: 'User Does Not Exist' });
+        };
+        res.json(userProfile);
+    } catch (err) {
+        if ( err.kind === 'ObjectId' ) {
+            return res.status(400).json({ msg: 'User Does Not Exist' });
+        };
+
+        res.status(500).json({ msg: 'Server Error' });
+    };
+});
+
+module.exports = router
