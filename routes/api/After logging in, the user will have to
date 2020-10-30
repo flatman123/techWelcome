@@ -29,3 +29,7 @@ if they don't already have one.
 // use appropriate dataStructure to build the user's
     profile
 
+
+// Create a route that will pull all profiles from the database
+
+// create a route that will profile a user's profile via id
