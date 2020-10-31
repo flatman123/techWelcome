@@ -140,7 +140,7 @@ router.get('/user/:userID', async (req, res) => {
 });
 
 
-// GET /api/profile/
+// DELETE /api/profile/
 // desc Delete profile, user and posts
 // @Access private
 router.delete('/',auth, async (req, res) => {
