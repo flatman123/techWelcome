@@ -146,11 +146,11 @@ router.get('/user/:userID', async (req, res) => {
 router.delete('/',auth, async (req, res) => {
     try {
         // @todo - remove user posts
-        
+        console.log(req.user.id)
         // Remove profile
         await Profile.findOneAndRemove({ user: req.user.id });
 
-        // Remove profile
+        // Remove User
         await User.findOneAndRemove({ _id: req.user.id });
 
         res.json({ msg: 'User deleted' });
