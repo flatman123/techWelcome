@@ -225,7 +225,11 @@ router.delete('/experience/:exp_id', auth, async(req, res) => {
         const expIndex = profile.experience
             .map(exp => exp.id)
             .indexOf(req.params.exp_id);
-        
+
+        if (expIndex < 0) {
+            return res.status(400).send('Server Error')
+        }; 
+
         profile.experience.splice(expIndex, 1);        
         await profile.save();
         res.json(profile);
@@ -242,7 +246,8 @@ router.delete('/experience/:exp_id', auth, async(req, res) => {
 // @Access private
 router.put('/education', [auth,
     check('school', 'School is required')
-        .notEmpty(),
+        .not()
+        .isEmpty(),
     check('degree', 'You must enter a degree')
         .notEmpty(),
     check('from', 'From data is required')
@@ -255,7 +260,7 @@ router.put('/education', [auth,
     async(req, res) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
-            return res.status(400).json({ msg: 'Server Error'})
+            return res.status(400).json({ error: error.errors })
         };
     
     // Build Education object
@@ -302,7 +307,9 @@ router.delete('/education/:edu_id', auth, async(req, res) => {
         const eduIndex = profile.education
                                 .map(edu => edu.id)
                                 .indexOf(req.params.edu_id);
-                                       
+        if (eduIndex < 0) {
+            return res.status(400).send('Server Error')
+        };                        
         profile.education.splice(eduIndex, 1);
         await profile.save();
         res.json(profile);
@@ -310,7 +317,7 @@ router.delete('/education/:edu_id', auth, async(req, res) => {
         console.error(err.message);
         res.status(500).send('Server Error');
     };
-})
+});
 
 
 module.exports = router;
