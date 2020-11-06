@@ -296,9 +296,16 @@ router.put('/education', [auth,
 // DELETE /api/education/edu_id
 // @desc Delete education from user profile
 // @Access private
-router.delete('/experience/:edu_id', auth, async(req, res) => {
+router.delete('/education/:edu_id', auth, async(req, res) => {
     try {
-
+        const profile = await Profile.findOne({ user: req.user.id });
+        const eduIndex = profile.education
+                                .map(edu => edu.id)
+                                .indexOf(req.params.edu_id);
+                                       
+        profile.education.splice(eduIndex, 1);
+        await profile.save();
+        res.json(profile);
     } catch(err) {
         console.error(err.message);
         res.status(500).send('Server Error');
