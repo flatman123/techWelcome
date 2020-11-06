@@ -214,6 +214,96 @@ router.put('/experience', [ auth, [
 
 });
 
+// DELETE /api/profile/experience/:exp_id
+// desc Delete an experience
+// @Access private
+router.delete('/experience/:exp_id', auth, async(req, res) => {
+    try {
+        const profile = await Profile.findOne({ user: req.user.id });
+
+        // Remove an experience
+        const expIndex = profile.experience
+            .map(exp => exp.id)
+            .indexOf(req.params.exp_id);
+        
+        profile.experience.splice(expIndex, 1);        
+        await profile.save();
+        res.json(profile);
+
+    } catch (err){
+        console.error(err.message);
+        res.status(500).send({ msg: 'Server Error' });
+    }
+});
 
 
-module.exports = router
+// PUT /api/education/
+// @desc Add education to user profile
+// @Access private
+router.put('/education', [auth,
+    check('school', 'School is required')
+        .notEmpty(),
+    check('degree', 'You must enter a degree')
+        .notEmpty(),
+    check('from', 'From data is required')
+        .notEmpty(),
+    check('to', 'To date is required')
+        .notEmpty(),
+    check('fieldOfStudy', 'Field of study is required')
+        .notEmpty()
+    ], 
+    async(req, res) => {
+        const error = validationResult(req);
+        if (!error.isEmpty()) {
+            return res.status(400).json({ msg: 'Server Error'})
+        };
+    
+    // Build Education object
+    const {
+        school,
+        degree,
+        fieldOfStudy,
+        from,
+        to,
+        current,
+        description
+    } = req.body;
+
+    const userEducation = {
+        school,
+        degree,
+        fieldOfStudy,
+        from,
+        to,
+        current,
+        description
+    };
+
+    try{
+        const profile = await Profile.findOne({ user: req.user.id });
+
+        // Add user education to their profile
+        profile.education.unshift(userEducation);
+    
+        await profile.save(profile);
+        res.json(profile);
+    } catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    };
+});
+
+// DELETE /api/education/edu_id
+// @desc Delete education from user profile
+// @Access private
+router.delete('/experience/:edu_id', auth, async(req, res) => {
+    try {
+
+    } catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    };
+})
+
+
+module.exports = router;
