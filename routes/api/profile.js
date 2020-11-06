@@ -322,7 +322,7 @@ router.delete('/education/:edu_id', auth, async(req, res) => {
 });
 
 
-// PUT /api/social/
+// PUT /api/profile/social/
 // @desc Add social media to user profile
 // @Access private
 router.put('/social', auth, async(req, res) => {
