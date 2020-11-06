@@ -227,8 +227,8 @@ router.delete('/experience/:exp_id', auth, async(req, res) => {
             .indexOf(req.params.exp_id);
 
         if (expIndex < 0) {
-            return res.status(400).send('Server Error')
-        }; 
+            return res.status(400).json({ msg: 'Server Error' });
+        };
 
         profile.experience.splice(expIndex, 1);        
         await profile.save();
@@ -298,6 +298,7 @@ router.put('/education', [auth,
     };
 });
 
+
 // DELETE /api/education/edu_id
 // @desc Delete education from user profile
 // @Access private
@@ -308,8 +309,9 @@ router.delete('/education/:edu_id', auth, async(req, res) => {
                                 .map(edu => edu.id)
                                 .indexOf(req.params.edu_id);
         if (eduIndex < 0) {
-            return res.status(400).send('Server Error')
-        };                        
+            return res.status(400).json({ msg: 'Server Error' });
+        };         
+
         profile.education.splice(eduIndex, 1);
         await profile.save();
         res.json(profile);
@@ -319,5 +321,17 @@ router.delete('/education/:edu_id', auth, async(req, res) => {
     };
 });
 
+
+// PUT /api/social/
+// @desc Add social media to user profile
+// @Access private
+router.put('/social', auth, async(req, res) => {
+    try {
+
+    } catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    };
+});
 
 module.exports = router;
