@@ -325,13 +325,20 @@ router.delete('/education/:edu_id', auth, async(req, res) => {
 // PUT /api/profile/social/
 // @desc Add social media to user profile
 // @Access private
-router.put('/social', auth, async(req, res) => {
+router.put('/social/:username', auth, async(req, res) => {
     try {
-
+        const optoins = {
+            uri: `https://api,github.com/users/${req.params.username}`
+        }
     } catch(err) {
         console.error(err.message);
         res.status(500).send('Server Error');
     };
 });
+
+// PUT /api/profile/github/:username
+// @desc Get user repos from Github
+// @Access public
+
 
 module.exports = router;
