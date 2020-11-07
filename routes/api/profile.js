@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const request = require('request');
+const config = require('config');
 const auth = require('../../middleware/auth');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
@@ -328,7 +330,10 @@ router.delete('/education/:edu_id', auth, async(req, res) => {
 router.put('/social/:username', auth, async(req, res) => {
     try {
         const optoins = {
-            uri: `https://api,github.com/users/${req.params.username}`
+            uri: `https://api,github.com/users/${req.params.username}/
+                    repos?per_page=5&sort=created:asc&client_id=${config.get(
+                        'gitHubClientId'
+                    )}`
         }
     } catch(err) {
         console.error(err.message);
