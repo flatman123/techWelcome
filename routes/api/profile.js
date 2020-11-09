@@ -325,7 +325,7 @@ router.delete('/education/:edu_id', auth, async(req, res) => {
 
 
 // PUT /api/profile/social/
-// @desc Add social media to user profile
+// @desc Add social media to user profile - pull git hub repos
 // @Access private
 router.put('/social/:username', auth, async(req, res) => {
     try {
