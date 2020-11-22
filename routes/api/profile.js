@@ -329,15 +329,17 @@ router.delete('/education/:edu_id', auth, async(req, res) => {
 // @Access public
 router.get('/github/:username', (req, res) => {
     try {
+        console.log(config.get('gitHubClientSecret'));
         const options = {
-            uri: `https://api.github.com/users/${req.params.username}/
-                    repos?per_page=5&sort=created:asc&client_id=${config.get('gitHubClientID')}&
+            uri: `https://api.github.com/users/${req.params.username}/ \
+                    repos?per_page=5&sort=created:asc&client_id=${config.get('gitHubClientID')}& \
                     client_secret=${config.get('gitHubClientSecret')}`,
-                    method: 'GET',
-                    headers: { 'user-agent': 'node.js' }
+            method: 'GET',
+            headers: { 'user-agent': 'redeyecoding' }
         };
 
         request(options, (error, response, body) => {
+
             if (error) console.error(error);
             if (response.statusCode !== 200) {
                 return res.status(response.statusCode).json({ msg: 'No Github profile found!'});
