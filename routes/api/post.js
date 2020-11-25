@@ -204,7 +204,7 @@ router.post('/comment/:postID', [ auth,
 
             // Check if comment exists
             if (!listOfComments.includes(comment)) {
-                return res.status(400).json({ msg: 'Comment does not exist' });
+                return res.status(404).json({ msg: 'Comment does not exist' });
             };
 
             const commentIndex = post.comments.map(comment => comment.id).indexOf(comment);
