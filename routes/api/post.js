@@ -195,12 +195,13 @@ router.post('/comment/:postID', [ auth,
     // @access Private
     router.delete('/delete_comment/:postID/:comment_id', auth, async(req, res) => {
          try {
+            // Pull comment and post.
             const [ post, comment ] = [
                 await Post.findById(req.params.postID),
                 req.params.comment_id
             ];
             const listOfComments = post.comments.map(comment => comment.id);
-            
+
             // Check if comment exists
             if (!listOfComments.includes(comment)) {
                 return res.status(400).json({ msg: 'Comment does not exist' });
