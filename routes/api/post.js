@@ -134,8 +134,7 @@ router.put('/unlike/:postID', auth, async(req, res) => {
     try {
         const post =  await Post.findById(req.params.postID);
 
-        // Check if post liked by user
-        
+        // Check if post liked by user        
         if (post.likes.filter(like => like.user.toString() === req.user.id ).length === 0) {
             return res.status(400).json({ msg: 'You must, first, like the post before you can remove it' });
         };
@@ -148,8 +147,6 @@ router.put('/unlike/:postID', auth, async(req, res) => {
         await post.save();
 
         res.json(post.likes);
-        // post.splice(likedUserID, 1);
-
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
