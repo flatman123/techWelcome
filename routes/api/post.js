@@ -196,26 +196,46 @@ router.post('/comment/:postID', [ auth,
     router.delete('/delete_comment/:postID/:comment_id', auth, async(req, res) => {
          try {
             // Pull comment and post.
-            const [ post, comment ] = [
+            const [ post, commentId ] = [
                 await Post.findById(req.params.postID),
                 req.params.comment_id
             ];
-            const listOfComments = post.comments.map(comment => comment.id);
+
+            const userComment = post.comments.find(comment => comment.id === commentId);
+            const user = await User.findById(req.user.id);
 
             // Check if comment exists
-            if (!listOfComments.includes(comment)) {
+            if (!userComment) {
                 return res.status(404).json({ msg: 'Comment does not exist' });
             };
 
-            const commentIndex = post.comments.map(comment => comment.id).indexOf(comment);
+            const ownerOfPost = post.user.toString();
+            const ownerOfComment = userComment.user.toString();
+
+            // Only the owner of the post and owner of comment should have ability
+            // to delete a comment
+            if (ownerOfPost !== user.id && ownerOfComment !== req.user.id)  {
+                return res.status(401).json({ msg: 'User not authorized' });
+            };
+
+            const commentIndex = post.comments
+                .map(comment => comment)
+                .indexOf(userComment);
+
             post.comments.splice(commentIndex, 1);
 
             await post.save();
 
             res.json(post.comments);
         } catch (err) {
-            console.error(err.message);
-            res.status(500).send('Server Error');
+            if (err.kind === 'ObjectId' || err.value === postID) {
+                console.error(err.message);
+                res.status(404).json({ msg: 'Comment does not exist' });
+            } else {
+                console.error(err.message);
+                res.status(500).send('Server Error');
+            }
+
         }
     });
 
