@@ -20,6 +20,7 @@ export default function(state = initialState, action) {
                 loading: false
             }
         case REGISTER_FAIL:
+            console.log(localStorage)
             localStorage.removeItem('token');
             return {
                 ...state,
