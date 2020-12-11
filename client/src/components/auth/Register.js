@@ -3,8 +3,11 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/auth';
+import PropTypes from 'prop-types';
 
-const Register = ({ setAlert }) => {
+
+const Register = (props) => {   
     const [ formData, setFormData ] = useState({
         name: '',
         email: '',
@@ -15,12 +18,11 @@ const Register = ({ setAlert }) => {
     const onChange = e => setFormData( {...formData, [e.target.name]:e.target.value});
    
     const onSubmit = async e => {
-        e.preventDefault();
-
+        // e.preventDefault();
         if(password !== password2) {
-            setAlert('Passwords to not match', 'danger');
+            props.setAlert('Passwords to not match', 'danger');
         } else {
-            console.log('SUCCESS');
+            props.register({ name, email, password });
         }
     };
     return (
@@ -37,7 +39,7 @@ const Register = ({ setAlert }) => {
                         name="name" 
                         value={name}
                         onChange={e => onChange(e)}
-                        required 
+                        // required 
                         />
                 </div>
 
@@ -48,7 +50,7 @@ const Register = ({ setAlert }) => {
                         name="email"
                         value={email}
                         onChange={e => onChange(e)}
-                        required
+                        // required
                         
                         />
                     <small className="form-text"
@@ -90,4 +92,10 @@ const Register = ({ setAlert }) => {
     )
 };
 
-export default connect(null, { setAlert })(Register);
+Register.propTypes = {
+    setAlert: PropTypes.func.isRequired,
+    register: PropTypes.func.isRequired
+};
+
+// Add setAlert to Redux to use within props
+export default connect(null, { setAlert, register })(Register);
