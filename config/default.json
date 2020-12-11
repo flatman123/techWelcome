@@ -1,4 +1,7 @@
 {
     "mongoURI": "mongodb+srv://redeyedb:cisco123@cluster0.yp66n.mongodb.net/db_1?retryWrites=true&w=majority",
-    "jwtSecret": "mysecret"
+    "jwtSecret": "mysecret",
+    "gitHubClientID": "96b172e65e7282681a80",
+    "gitHubClientSecret": "a41092781096fc39b1f5a02e3466c454cebfeab8",
+    "gitHubPersonAccessToken":"4caa37fde8b2010db3db94601c1d235d487e9840"
 }
